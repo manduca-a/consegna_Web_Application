@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/documentiCSS.css">
+    <link rel="icon" type="image/jpeg" href="/immagini/logo.jpg">
+    <script src="/js/homeResponsive.js" defer></script>
+    <title>Documenti Utente</title>
+
+</head>
+<body>
+<h1>HEALTH & SAFETY</h1>
+<h2 th:text="'Documenti per ' + ${utente?.nome} + ' ' + ${utente?.cognome}"></h2>
+
+
+<div class="menu-icon" onclick="toggleMenu()">&#9776; Menu</div>
+<div class="wrapper">
+    <div class="menu-laterale">
+        <nav class="side-menu">
+            <ul>
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><a th:href="@{/dati}">Gestione Dati</a></li>
+                <li><a th:href="@{/documenti/}" class="active">Gestione Documenti</a></li>
+                <li><a th:href="@{/utenti/}">Gestione Utenti</a></li>
+                <li><a href="@{/logout}" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="content">
+
+        <div class="tableContainer">
+            <!--TODO CEARCARE TRAMITE TIPOLOGIA, NOME, ID_DOCUMENTO...-->
+            <div class="search-container">
+                <form th:action="@{/cerca_documento}" method="get">
+                    <label for="search-id">Cerca documento:</label>
+                    <input type="text" id="search-id" name="search-id" placeholder="Inserisci id documento" required>
+                    <input type="hidden" name="userId" th:value="${utente?.id}" />
+                    <button type="submit">Cerca</button>
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>DOCUMENTO</th>
+                    <th>ID DOCUMENTO</th>
+                    <th>DESCRIZIONE</th>
+                    <th>TIPOLOGIA</th>
+                    <th>DATA EMISSIONE</th>
+                    <th>DATA SCADENZA</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="documento : ${documenti}">
+                    <td>
+                        <a th:href="@{/files/__${documento.relativePath}__}" th:text="${documento.fileName}" target="_blank">Download</a>
+                    </td>
+                    <td th:text="${documento.id}"></td>
+                    <td class="desc-col">
+                        <div style="height: 100px; overflow-y: auto;">
+                            [[${documento.descrizione}]]
+                        </div>
+                    </td>
+                    <td th:text="${documento.tipologia}"></td>
+                    <td th:text="${documento.data_emissione}"></td>
+                    <td th:text="${documento.data_scadenza}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="upload-form">
+            <h2>Carica file</h2>
+            <form id="registrationDoc" th:action="@{/upload}" method="post" enctype="multipart/form-data">
+
+                <!-- Campo di input per il file -->
+                <div class="form-group">
+                    <label for="file">Scegli un file:</label>
+                    <input type="file" id="file" name="file">
+                    <input type="hidden" name="userId" th:value="${utente.id}" />
+                </div>
+
+                <!-- Campo di textarea per la descrizione -->
+                <div class="form-group">
+                    <label for="descrizione">Descrizione:</label>
+                    <textarea id="descrizione" name="descrizione" maxlength="500" rows="4" placeholder="Inserisci una descrizione (max 500 caratteri)"></textarea>
+                </div>
+
+                <!-- Campo di selezione per la tipologia -->
+                <div class="form-group">
+                    <label for="tipologia">Tipologia Documento:</label>
+                    <select id="tipologia" name="tipologia">
+                        <option value="">--Seleziona una tipologia--</option>
+                        <option th:each="tipo : ${tipologie}" th:value="${tipo}" th:text="${tipo}">Tipologia</option>
+                    </select>
+                </div>
+
+                <button type="submit">Carica</button>
+            </form>
+        </div>
+
+
+        <div class="delete-container">
+            <h2>Elimina file</h2>
+            <form th:action="@{/delete_documento}" method="post">
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" required>
+                <input type="hidden" name="userId" th:value="${utente.id}" />
+                <button type="submit">Rimuovi</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!--    <script src="/js/aggiungiDocumentoScripts.js"></script>-->
+<script th:inline="javascript">
+
+    var uploadMessage = [[${uploadMessage}]];
+    var deleteMessage = [[${deleteMessage}]];
+
+    if (uploadMessage) {
+        alert(uploadMessage);
+    } else if (deleteMessage) {
+        alert(deleteMessage);
+    }
+
+</script>
+</body>
+</html>
+

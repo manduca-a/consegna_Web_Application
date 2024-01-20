@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/homeDipCSS.css">
+    <link rel="stylesheet" href="/css/animationCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/jpeg" href="/immagini/logo.jpg">
+    <script src="/js/homeResponsive.js" defer></script>
+
+    <title>Gestione Documenti</title>
+</head>
+<body>
+<div class="scritte">
+    <h1>HEALTH & SAFETY</h1>
+    <h2>Benvenuto: <span th:text="${currentUser.nome}"></span></h2>
+</div>
+
+
+<div class="wrapper">
+
+    <div class="menu-icon" onclick="toggleMenu()">&#9776; Menu</div>
+
+    <div class="menu-laterale">
+        <nav class="side-menu">
+            <ul>
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><a th:href="@{/dati}">Gestione Dati</a></li>
+                <li><a th:href="@{/documenti/}" class="active">Gestione Documenti</a></li>
+                <li th:if="${currentUser.isAmministratore}"><a th:href="@{/utenti/}">Gestione Utenti</a></li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="main-container">
+        <div class="search-container">
+            <form th:action="@{/search_utente}" method="get" class="cerca">
+                <label for="id">Cerca utente:</label>
+                <input type="text" id="id" name="search" required>
+                <button type="submit">Cerca</button>
+            </form>
+        </div>
+
+        <div th:if="${utenti != null}" class="table-container">
+            <h2>Utenti Trovati</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Cognome</th>
+                    <th>Email</th>
+                    <th>Documenti</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="utente : ${utenti}">
+                    <td th:text="${utente.id}"></td>
+                    <td th:text="${utente.nome}"></td>
+                    <td th:text="${utente.cognome}"></td>
+                    <td th:text="${utente.email}"></td>
+                    <td><a th:href="@{'/utente-documenti/' + ${utente.id}}">Visualizza Documenti</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

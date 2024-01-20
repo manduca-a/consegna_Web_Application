@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/homeDipCSS.css">
+    <link rel="icon" type="image/jpeg" href="/immagini/logo.jpg">
+    <script src="/js/homeResponsive.js" defer></script>
+
+    <title>Registra Utente</title>
+</head>
+<body>
+    <h1>HEALTH & SAFETY</h1>
+    <h2>Benvenuto: <span th:text="${currentUser.nome}"></span></h2>
+
+<div class="wrapper">
+    <div class="menu-icon" onclick="toggleMenu()">&#9776; Menu</div>
+    <div class="menu-laterale">
+        <nav class="side-menu">
+            <ul>
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><a th:href="@{/dati}">Gestione Dati</a></li>
+                <li><a th:href="@{/documenti/}">Gestione Documenti</a></li>
+                <li th:if="${currentUser.isAmministratore}"><a th:href="@{/utenti/}" class="active">Gestione Utenti</a></li>
+                <li><a href="@{/logout}" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+        <div class="main-container">
+            <h2>REGISTRA NUOVO UTENTE</h2>
+            <div class="registra-container">
+                <form id="registrationForm" method="post">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+
+                    <label for="cognome">Cognome:</label>
+                    <input type="text" id="cognome" name="cognome" required>
+
+                    <label for="data_di_nascita">Data di Nascita:</label>
+                    <input type="date" id="data_di_nascita" name="data_di_nascita" required>
+
+                    <label for="amministratore">Amministratore:</label>
+                    <input type="radio" id="amministratore" name="ruolo" value="Formatore">
+
+                    <label for="formatore">Formatore:</label>
+                    <input type="radio" id="formatore" name="ruolo" value="Formatore">
+
+                    <label for="dip">Dipendente:</label>
+                    <input type="radio" id="dip" name="ruolo" value="Dipendente">
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+
+                    <label for="confPassword">Conferma Password:</label>
+                    <input type="password" id="confPassword" name="confPassword" required>
+
+                    <button type="submit">Registra</button>
+                </form>
+            </div>
+            <h2>RIMUOVI UTENTE</h2>
+            <div class="registra-container">
+                <form th:action="@{/delete_utente}" method="post">
+                    <label for="id">ID:</label>
+                    <input type="text" id="id" name="id" required>
+                    <button type="submit">Rimuovi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/js/gestioneUtenti.js"></script>
+    <script th:inline="javascript">
+
+        var deleteMessage = [[${deleteMessage}]];
+        if (deleteMessage) {
+            alert(deleteMessage);
+        }
+
+    </script>
+</body>
+</html>

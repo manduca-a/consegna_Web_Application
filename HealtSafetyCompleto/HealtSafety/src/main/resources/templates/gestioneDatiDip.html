@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/homeDipCSS.css">
+    <link rel="icon" type="image/jpeg" href="/immagini/logo.jpg">
+    <script src="/js/indexResponsiveResize.js" defer></script>
+    <title>Gestione Dati</title>
+</head>
+<body>
+<div class="scritte">
+    <h1>HEALTH & SAFETY</h1>
+    <h2>Benvenuto: <span th:text="${currentUser.nome}"></span></h2>
+</div>
+
+<div class="wrapper">
+
+    <div class="menu-icon" onclick="toggleMenu()">&#9776; Menu</div>
+    <div class="menu-laterale">
+        <nav class="side-menu">
+            <ul>
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><a class="active">Gestione Dati</a></li>
+                <li><a th:href="@{/utente-documenti/{id}(id=${currentUser.id})}">Gestione Documenti</a></li>
+                <li th:if="${currentUser.isAmministratore}"><a th:href="@{/utenti/}">Gestione Utenti</a></li>
+
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-container">
+        <h2>DATI PERSONALI:</h2>
+        <!-- Sezione dettagli utente non modificabili -->
+        <div class="user-details">
+            <p>Nome: <span th:text="${currentUser.nome}"></span></p>
+            <p>Cognome: <span th:text="${currentUser.cognome}"></span></p>
+            <p>Data di Nascita: <span th:text="${currentUser.data_di_nascita}"></span></p>
+            <p>Email: <span th:text="${currentUser.email}"></span></p>
+            <p th:if="${currentUser.isAmministratore}" th:text="'Ruolo: Amministratore'"></p>
+            <p th:if="${currentUser.isFormatore}" th:text="'Ruolo: Formatore'"></p>
+            <p th:unless="${currentUser.isAmministratore or currentUser.isFormatore}" th:text="'Ruolo: Dipendente'"></p>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

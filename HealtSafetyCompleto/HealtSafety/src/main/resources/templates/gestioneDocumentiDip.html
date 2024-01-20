@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/homeDipCSS.css">
+    <link rel="stylesheet" href="/css/animationCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/jpeg" href="/immagini/logo.jpg">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/indexResponsiveResize.js" defer></script>
+
+    <title>Gestione Documenti</title>
+</head>
+<body>
+<div class="scritte">
+    <h1>HEALTH & SAFETY</h1>
+    <h2>Benvenuto: <span th:text="${currentUser.nome}"></span></h2>
+</div>
+
+
+<div class="wrapper">
+    <div class="menu-icon" onclick="toggleMenu()">&#9776; Menu</div>
+    <div class="menu-laterale">
+        <nav class="side-menu">
+            <ul>
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><a th:href="@{/dati}">Gestione Dati</a></li>
+                <li><a th:href="@{/utente-documenti/{id}(id=${currentUser.id})}" class="active">Gestione Documenti</a></li>
+                <li th:if="${currentUser.isAmministratore}"><a th:href="@{/utenti/}">Gestione Utenti</a></li>
+
+            </ul>
+        </nav>
+    </div>
+
+        <div class="main-container">
+            <div class="tableContainer">
+                <!--TODO CEARCARE TRAMITE TIPOLOGIA, NOME, ID_DOCUMENTO...-->
+                <div class="search-container">
+                    <form th:action="@{/cerca_documento}" method="get" class="cerca">
+                        <label for="search-id">Cerca documento:</label>
+                        <input type="text" id="search-id" name="search-id" required>
+                        <input type="hidden" name="userId" th:value="${currentUser.id}" />
+                        <button type="submit">Cerca</button>
+                    </form>
+                </div>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Documento</th>
+                        <th>ID Documento</th>
+                        <th>Descrizione</th>
+                        <th>Tipologia</th>
+                        <th>Data Emissione</th>
+                        <th>Data Scadenza</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="documento : ${documenti}">
+                        <td>
+                            <a th:href="@{/files/__${documento.relativePath}__}" th:text="${documento.fileName}" target="_blank">Download</a>
+
+                        </td>
+                        <td th:text="${documento.id}"></td>
+                        <td class="desc-col">
+                            <div style="height: 100px; overflow-y: auto;">
+                                [[${documento.descrizione}]]
+                            </div>
+                        </td>
+                        <td th:text="${documento.tipologia}"></td>
+                        <td th:text="${documento.data_emissione}"></td>
+                        <td th:text="${documento.data_scadenza}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.download-link').click(function(e) {
+                e.preventDefault();
+                var docId = $(this).data('id');
+                var fileUrl = $(this).attr('href');
+
+                markAsDownloaded(docId, function() {
+
+                    window.location.href = fileUrl;
+                });
+            });
+        });
+
+        function markAsDownloaded(docId, callback) {
+            $.ajax({
+                url: '/mark-as-downloaded/' + docId,
+                type: 'POST',
+                success: function(response) {
+                    console.log('Documento marcato come scaricato');
+                    callback();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Errore: " + error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

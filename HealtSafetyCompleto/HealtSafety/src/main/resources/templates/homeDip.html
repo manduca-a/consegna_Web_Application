@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/homeDipCSS.css"> <!-- Assicurati di collegare il tuo foglio di stile CSS -->
+    <link rel="icon" type="image/jpeg" href="/immagini/logo.jpg">
+    <script src="/js/indexResponsiveResize.js" defer></script>
+    <title>Home</title>
+</head>
+<body>
+    <h1>HEALTH & SAFETY</h1>
+    <h2>Benvenuto: <span th:text="${currentUser.nome}"></span></h2>
+
+
+
+<div class="wrapper">
+    <div class="menu-icon" onclick="toggleMenu()">&#9776; Menu</div>
+
+    <div class="menu-laterale">
+        <nav class="side-menu">
+            <ul>
+                <li><a class="active">Home</a></li>
+                <li><a th:href="@{/dati}">Gestione Dati</a></li>
+                <li><a th:href="@{/utente-documenti/{id}(id=${currentUser.id})}">Gestione Documenti</a></li>
+                <li th:if="${currentUser.isAmministratore}"><a th:href="@{/utenti/}">Gestione Utenti</a></li>
+
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Contenitore principale -->
+        <div class="main-container">
+            <div class="info-container" >
+                <h3>Il software di Gestione Documentale Health&Safety è una soluzione avanzata progettata per <br>
+                    soddisfare le esigenze specifiche di un'azienda nel settore della salute e sicurezza sul lavoro.<br>
+                    Questo strumento robusto offre un approccio stratificato per garantire un'efficace gestione <br>
+                    dei documenti, con tre distinti livelli di utenti, ciascuno con funzioni mirate in base al proprio <br>
+                    ruolo aziendale.<br><br>
+
+                    Il software supporta documenti di qualsiasi formato, fornendo un ambiente flessibile per le specifiche<br>
+                    esigenze del settore Health&Safety. L'email cumulativa giornaliera per i certificati in scadenza <br>
+                    inviata al responsabile azienda formazione sottolinea l'attenzione al monitoraggio proattivo <br>
+                    delle scadenze. Gli account amministrativi, gestiti dagli addetti all'applicazione, garantiscono <br>
+                    un controllo completo sulla piattaforma, contribuendo a mantenere un ambiente virtuale sicuro e in <br>
+                    conformità con le normative. Con un'interfaccia intuitiva, il software semplifica il flusso di lavoro <br>
+                    aziendale, promuovendo la sicurezza e la conformità nei luoghi di lavoro.<br>
+                </h3>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/homeDipCSS.css">
+    <link rel="stylesheet" href="/css/animationCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/jpeg" href="/immagini/logo.jpg">
+    <script src="/js/homeResponsive.js" defer></script>
+
+    <title>Gestione Documenti</title>
+</head>
+<body>
+
+<h1>HEALTH & SAFETY</h1>
+<h2>Benvenuto: <span th:text="${currentUser.nome}"></span></h2>
+
+
+
+<div class="wrapper">
+
+    <div class="menu-icon" onclick="toggleMenu()">&#9776; Menu</div>
+
+    <div class="menu-laterale">
+        <nav class="side-menu">
+            <ul>
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><a th:href="@{/dati}">Gestione Dati</a></li>
+                <li><a th:href="@{/documenti/}" class="active">Gestione Documenti</a></li>
+                <li th:if="${currentUser.isAmministratore}"><a th:href="@{/utenti/}">Gestione Utenti</a></li>
+                <li><a href="@{/logout}" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="main-container">
+        <div class="search-container">
+            <form th:action="@{/search_utente}" method="get" class="cerca">
+                <label for="id">Cerca utente:</label>
+                <input type="text" id="id" name="search" required>
+                <button type="submit">Cerca</button>
+            </form>
+        </div>
+
+        <div th:if="${utenti != null}" class="table-container">
+            <h3 class="utenti-trovati">Utenti trovati con: <span th:text="${searchInput}"></span></h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOME</th>
+                    <th>COGNOME</th>
+                    <th>EMAIL</th>
+                    <th>DOCUMENTI</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="utente : ${utenti}">
+                    <td th:text="${utente.id}"></td>
+                    <td th:text="${utente.nome}"></td>
+                    <td th:text="${utente.cognome}"></td>
+                    <td th:text="${utente.email}"></td>
+                    <td><a th:href="@{'/utente-documenti/' + ${utente.id}}">Visualizza Documenti</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="add-icon" onclick="toggleForm()">+</div>
+
+        <div class="upload-formm">
+            <h2>Carica file per più utenti</h2>
+            <form id="registrationDoc" th:action="@{/uploadall}" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="id_utenti">Inserisci gli ID</label>
+                    <input type="text" id="id_utenti" name="id_utenti" placeholder="ID/ID/ID/ID..." required>
+                </div>
+
+                <!-- Campo di input per il file -->
+                <div class="form-group">
+                    <label for="file">Scegli un file:</label>
+                    <input type="file" id="file" name="file">
+                </div>
+
+                <!-- Campo di textarea per la descrizione -->
+                <div class="form-group">
+                    <label for="descrizione">Descrizione:</label>
+                    <textarea id="descrizione" name="descrizione" maxlength="500" rows="4" placeholder="Inserisci una descrizione (max 500 caratteri)"></textarea>
+                </div>
+
+                <!-- Campo di selezione per la tipologia -->
+                <div class="form-group">
+                    <label for="tipologia">Tipologia Documento:</label>
+                    <select id="tipologia" name="tipologia">
+                        <option value="">--Seleziona una tipologia--</option>
+                        <option th:each="tipo : ${tipologie}" th:value="${tipo}" th:text="${tipo}">Tipologia</option>
+                    </select>
+                </div>
+
+                <button type="submit">Carica</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('../immagini/index.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: #2a2a2a;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+
+a .active{
+    color: #c5a643;
+}
+
+.login-container,
+.side-menu {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 350px;
+}
+
+
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+
+.login-container button,
+.side-menu button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.login-container button:hover,
+.side-menu button:hover {
+    background-color: #0056b3;
+}
+
+
+.login-container .back-to-home-button,
+.side-menu .back-to-home-button {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+
+.login-container .back-to-home-button:hover,
+.side-menu .back-to-home-button:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*height: 90vh;*/
+}
+
+.side-menu {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 20px;
+    width: 200px;
+}
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-menu a {
+    text-decoration: none;
+    color: #ffffff;
+    display: block;
+    padding: 10px 0;
+}
+
+.main-container {
+    flex: 1;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.menu-laterale{
+    padding: 20px;
+    margin-inside: 50px;
+}
+
+.menu-icon {
+    display: none;
+    cursor: pointer;
+
+}
+
+@media screen and (max-width: 743px) {
+    .wrapper {
+        display: contents;
+        width: 350px;
+    }
+
+    .side-menu {
+        padding: 0;
+        height: 115px;
+        box-shadow: none;
+    }
+
+    .menu-laterale {
+        display: none;
+    }
+    .menu-icon {
+        border-radius: 8px;
+        display: block;
+        position: relative;
+        left: 0;
+        right: 0;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        background-color: #343a40;
+        color: #f2f2f2;
+        padding: 20px 20px;
+        text-align: center;
+        width: 350px;
+        margin-top: 170px;
+
+    }
+    .show-menu {
+        display: flex;
+        position: absolute;
+        top: 110px;
+        padding: 0;
+        height: 22%;
+    }
+}
